@@ -1,6 +1,7 @@
 from room import Room
 from player import Player
 from world import World
+from util import Stack, Queue
 
 import random
 
@@ -21,7 +22,60 @@ player = Player("Name", world.startingRoom)
 
 
 # FILL THIS IN
-traversalPath = ['n', 's']
+traversalPath = []
+
+# build adjacency list from the roomGraph
+vertices = {}
+for room in roomGraph:
+    vertices[room] = roomGraph[room][1]
+print('vertices', vertices)
+
+
+# get shortest paths to each room from starting room
+def bfs(room):
+    q = Queue()
+    visited = {}
+    q.enqueue([room])
+    while q.size() > 0:
+        path = q.dequeue()
+        v = path[-1]
+        if v not in visited:
+            visited[v] = path
+            for neighbor in vertices[v]:
+                path_copy = list(path)
+                path_copy.append(vertices[v][neighbor])
+                q.enqueue(path_copy)
+    return visited
+
+
+"""
+Randomly move around until we've visited everything algorithm
+"""
+## start in room 0
+visited = set()
+## while len(rooms) > len(visited)
+while len(visited) < len(world.rooms):
+    # move randomly
+    possible_moves = player.currentRoom.getExits()
+    if len(possible_moves) > 1:
+        random.shuffle(possible_moves)
+    player.travel(possible_moves[0])
+    traversalPath.append(possible_moves[0])
+    # if new room is not in visited:
+    if player.currentRoom not in visited:
+        # add room to visited
+        visited.add(player.currentRoom)
+
+
+
+
+
+
+    
+
+
+
+
 
 
 # TRAVERSAL TEST
