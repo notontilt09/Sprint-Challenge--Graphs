@@ -128,6 +128,10 @@ def bfs_unexplored(graph, current_room):
                 path_copy.append(graph[room][direction])
                 q.enqueue(path_copy)
 
+
+"""
+This algorithm is DFT to dead-end, then BFS to nearest room with unexplored exit, as the hints suggest.
+"""
 graph = {}
 traversalPath = []
 
