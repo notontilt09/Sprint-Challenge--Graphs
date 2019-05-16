@@ -112,15 +112,22 @@ def dft_recursive(graph, player, traversalPath, current_room):
 # this is basically the same algorithm we've been using all week, just modified a bit to fit the 
 # particular problem
 def bfs_unexplored(graph, current_room):
+    # set up queue and visited set
     q = Queue()
     visited = set()
+
+    # enqueue the current_room as a path
     q.enqueue([current_room])
 
+    # while there's stuff in the queue
     while q.size() > 0:
+        # dequeue the last path
         path = q.dequeue()
+        # look at last value
         room = path[-1]
         if room not in visited:
             visited.add(room)
+            # if there is a ? in the room's exits, then this is the room we want to go to
             for direction in graph[room]:
                 if graph[room][direction] == '?':
                     return path
@@ -159,6 +166,7 @@ while len(graph) < len(world.rooms):
     # before we run the following code.  But if there's no path, that means we've hit every
     # room and we're done so that's good.
     if path:
+        # print(path)
         # this will move the player along the path to get back to the room with an unexplored exit
         for room in path:
             # check all of the directions to see which way is the next step
